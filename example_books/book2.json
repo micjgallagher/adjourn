@@ -1,0 +1,10 @@
+{
+    "book": "User\'s Secret Diary",
+    [
+        {
+            "time": "dd/mm/yyyy - hh:mm:ss",
+            "title": "My first secret journal entry",
+            "body": "Today I created a secret journal entry in a separate book using Adjourn. I should keep this file in an especially secure place!"
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+{
+    "book": "User\'s Primary Diary",
+    [
+        {
+            "time": "dd/mm/yyyy - hh:mm:ss",
+            "title": "My first journal entry",
+            "body": "Today I created a journal entry using Adjourn."
+        }
+    ]
+}
