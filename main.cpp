@@ -1,10 +1,28 @@
 #include <iostream>
+#include <fstream>
 
 #include "deps/json.hpp"
 using json = nlohmann::json;
 
+#include "consts.h"
 
-const char *cmd_write = "write";
+
+
+int main (int argc, char **argv) {
+    return 0;
+}
+
+
+
+json read_file(char *fp) {
+    std::ifstream f(fp);
+    return json::parse(f);
+}
+
+void write_file(char *fp, json j) {
+    std::ofstream o(fp);
+    o << std::setw(4) << j << std::endl;
+}
 
 
 bool confirm_action(char *msg) {
@@ -13,15 +31,5 @@ bool confirm_action(char *msg) {
     std::cin >> in;
     std::transform(in.begin(), in.end(), in.begin(), ::tolower);
     return in == "y" || in == "yes";
-}
-
-
-
-int main (int argc, char **argv) {
-    for (int i = 0; i < argc; i++) {
-        std::cout << argv[i] << "\n";
-    }
-    std::cout << "Initial Commit for adjourn\n";
-    return 0;
 }
 
