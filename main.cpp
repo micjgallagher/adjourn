@@ -1,5 +1,4 @@
 #include <iostream>
-#include <string.h>
 
 #include "deps/json.hpp"
 using json = nlohmann::json;
@@ -10,9 +9,10 @@ const char *cmd_write = "write";
 
 bool confirm_action(char *msg) {
     std::cout << msg << "(y/n)\n> ";
-    char *in;
+    std::string in;
     std::cin >> in;
-    return strcmp(in, "y");
+    std::transform(in.begin(), in.end(), in.begin(), ::tolower);
+    return in == "y" || in == "yes";
 }
 
 
