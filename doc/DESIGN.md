@@ -14,3 +14,19 @@
 - To switch the active diary while making an entry, use the `-B` flag
 
 `adjourn write $ENTRY_NAME -B $DIARY_NAME`
+
+## Diary Switching
+
+- You can switch the selected diary using
+
+`adjourn switch $DIARY_NAME`
+
+## Diary Reading
+
+- To print the selected diary, use
+
+`adjourn read`
+
+- You can read a specific diary using
+
+`adjourn read $DIARY_NAME`
