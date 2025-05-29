@@ -11,22 +11,14 @@ using json = nlohmann::json;
 #include "main.hpp"
 
 int main (int argc, char **argv) {
-    //Checking if if the adjourn directory exists
-    if(fs::exists(prependHome(path_local_dir))){
-        std::cout << "This exists\n";
-    } else{
-        std::cout << "Does not exist\n";
-    }
     return 0;
 }
 
 
-/*
-json read_file() {
+json read_file(char *fp) {
     std::ifstream f(fp);
     return json::parse(f);
 }
-*/
 
 void write_file(char *fp, json j) {
     std::ofstream o(fp);
@@ -42,8 +34,26 @@ bool confirm_action(char *msg) {
     return in == "y" || in == "yes";
 }
 
-fs::path prependHome(std::string path){
+
+std::string prependHome(std::string path){
     const std::string home = std::getenv("HOME"); 
-    const fs::path output{home + "/" + path};
+    return home + "/" + path;
+}
+
+fs::path getPath(std::string path, bool isFile, bool create){
+    const std::string _path = prependHome(path);
+    const fs::path output{_path};
+    if(!fs::exists(_path) && create){
+        if (isFile) {
+            // TODO
+        } else {
+            fs::create_directories(output);
+        }
+    }
     return output;
 }
+
+fs::path getPath(std::string path, bool isFile){
+    return getPath(path, isFile, true);
+}
+
