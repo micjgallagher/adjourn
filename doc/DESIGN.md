@@ -1,4 +1,4 @@
-# List of adjourn Subcommands
+# List of Adjourn subcommands
 
 ## Entry Creation
 
