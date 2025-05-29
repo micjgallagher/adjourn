@@ -40,20 +40,34 @@ std::string prependHome(std::string path){
     return home + "/" + path;
 }
 
-fs::path getPath(std::string path, bool isFile, bool create){
+fs::path getDir(std::string path, bool create){
     const std::string _path = prependHome(path);
-    const fs::path output{_path};
+    const fs::path fp{_path};
     if(!fs::exists(_path) && create){
-        if (isFile) {
-            // TODO
-        } else {
-            fs::create_directories(output);
-        }
+        fs::create_directories(fp);
     }
-    return output;
+    return fp;
 }
 
-fs::path getPath(std::string path, bool isFile){
-    return getPath(path, isFile, true);
+fs::path getPath(std::string path){
+    return getPath(path, true);
+}
+
+
+std::fstream getFile(std::string path, bool create){
+    const std::string _path = prependHome(path);
+    const fs::path fp{_path};
+
+    fs::path parent(fp.parent_path());
+    if(!fs::exists(parent) && create) {
+        fs::create_directories(parent);
+    }
+
+    std::fstream f(fp);
+    return f;
+}
+
+std::fstream getFile(std::string path){
+    return getFile(path, true);
 }
 
