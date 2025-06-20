@@ -49,8 +49,8 @@ fs::path getDir(std::string path, bool create){
     return fp;
 }
 
-fs::path getPath(std::string path){
-    return getPath(path, true);
+fs::path getDir(std::string path){
+    return getDir(path, true);
 }
 
 
