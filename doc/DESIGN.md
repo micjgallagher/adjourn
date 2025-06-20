@@ -30,3 +30,9 @@
 - You can read a specific diary using
 
 `adjourn read $DIARY_NAME`
+
+## Listing Diaries
+
+- To list all diaries
+
+`adjourn list`
