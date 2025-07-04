@@ -10,11 +10,27 @@ using json = nlohmann::json;
 #include "consts.h"
 #include "main.hpp"
 
+//Args 
+
+std::string write_arg =  cmd_write;
+std::string read_arg =  cmd_read;
+
 int main (int argc, char **argv) {
     
     if(argc <= 1){
         std::cout << "Please enter a subcommand" << std::endl;
         return 0;
+    }
+    std::string subcommand = argv[1];
+
+    if(subcommand==read_arg){
+            std::cout << "Using Read\n";
+    }
+    else if(subcommand == write_arg){
+            std::cout << "Using write\n";
+    }
+    else{
+            std::cout << "Not A Valid Subcommand";
     }
 
     return 0;
