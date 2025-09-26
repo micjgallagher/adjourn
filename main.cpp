@@ -29,16 +29,19 @@ int main (int argc, char **argv) {
     }
     else if (subcommand== cmd_switch){
 
-        std::cout << "using switch\n";
+        std::cout << "using switch";
     }
     else{
-        std::cout << "Not A Valid Subcommand\n";
+        std::cout << "Not A Valid Subcommand";
     }
 
     return 0;
 }
-
-
+std::string stringFromUser(){
+    //later this will need to be rewritten so that it can interface to vim
+    std::string output = "Temp output";
+    return output;
+}
 json read_file(char *fp) {
     std::ifstream f(fp);
     return json::parse(f);

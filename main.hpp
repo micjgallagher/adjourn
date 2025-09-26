@@ -1,3 +1,11 @@
+#include <iostream>
+#include <filesystem>
+
+#include "deps/json.hpp"
+using json = nlohmann::json;
+
+namespace fs = std::filesystem;
+
 json read_file(char *fp);
 void write_file(char *fp, json j);
 
@@ -11,4 +19,4 @@ fs::path getDir(std::string path);
 std::fstream getFile(std::string path, bool create);
 std::fstream getFile(std::string path);
 
-
+std::string stringFromUser();
