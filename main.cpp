@@ -1,6 +1,8 @@
+#include <cstdlib>
 #include <iostream>
 #include <fstream>
 #include <filesystem>
+#include <iterator>
 
 namespace fs = std::filesystem;
 
@@ -23,6 +25,8 @@ int main (int argc, char **argv) {
     }
     else if(subcommand == cmd_write){
         std::cout << "Using write\n";
+        std::cout << "Testing input";
+        std::cout << stringFromUser();
     }
     else if (subcommand == cmd_list){
         std::cout << "using list\n";
@@ -39,9 +43,34 @@ int main (int argc, char **argv) {
 }
 std::string stringFromUser(){
     //later this will need to be rewritten so that it can interface to vim
+    char * c_edit_var = std::getenv("EDITOR");
+    if(c_edit_var != NULL){
+        std::string EDIT_VAR(std::getenv("EDITOR"));
+        std::string command(EDIT_VAR);
+        
+        std::string fileName = createMemFile();
+
+       command += EDIT_VAR = " " + fileName;
+        system(command.c_str());
+        // system("cat /dev/shm/adjourn");
+        
+        //Reading
+        std::fstream file = getFile(fileName);
+        stringFromFile(file);
+        file.close();
+
+        deleteMemFile(fileName);
+    }
     std::string output = "Temp output";
+    // system("$EDITOR test");
     return output;
 }
+
+std::string stringFromFile(std::fstream file){
+    std::string contents{std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>()};
+    return contents;
+}
+
 json read_file(char *fp) {
     std::ifstream f(fp);
     return json::parse(f);
@@ -96,5 +125,18 @@ std::fstream getFile(std::string path, bool create){
 
 std::fstream getFile(std::string path){
     return getFile(path, true);
+}
+std::string createMemFile(){
+    fs::path filePath{"/dev/shm/adjourn"}; //TODO ensure that this link is to a unqiue file
+    std::string command("touch ");
+    command += filePath.string();
+    system(command.c_str());
+    return filePath;
+}
+
+void deleteMemFile(fs::path filePath){
+    std::string command("rm ");
+    command += filePath.string();
+    system(command.c_str());
 }
 

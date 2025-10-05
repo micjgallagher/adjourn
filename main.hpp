@@ -20,3 +20,7 @@ std::fstream getFile(std::string path, bool create);
 std::fstream getFile(std::string path);
 
 std::string stringFromUser();
+std::string createMemFile();
+void deleteMemFile(fs::path filePath);
+
+std::string stringFromFile(std::fstream file);
