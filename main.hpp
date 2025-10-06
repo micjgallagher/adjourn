@@ -23,4 +23,5 @@ std::string stringFromUser();
 std::string createMemFile();
 void deleteMemFile(fs::path filePath);
 
-std::string stringFromFile(std::fstream file);
+std::string stringFromFile(std::fstream &file);
+

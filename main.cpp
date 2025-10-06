@@ -1,10 +1,13 @@
 #include <cstdlib>
+#include <cstdio>
 #include <iostream>
 #include <fstream>
 #include <filesystem>
-#include <iterator>
+#include <ctime>
+#include <string>
+// #include <iterator>
 
-namespace fs = std::filesystem;
+// namespace fs = std::filesystem;
 
 #include "deps/json.hpp"
 using json = nlohmann::json;
@@ -41,34 +44,40 @@ int main (int argc, char **argv) {
 
     return 0;
 }
+
 std::string stringFromUser(){
-    //later this will need to be rewritten so that it can interface to vim
-    char * c_edit_var = std::getenv("EDITOR");
-    if(c_edit_var != NULL){
-        std::string EDIT_VAR(std::getenv("EDITOR"));
-        std::string command(EDIT_VAR);
-        
-        std::string fileName = createMemFile();
+    std::string output = "";
 
-       command += EDIT_VAR = " " + fileName;
-        system(command.c_str());
-        // system("cat /dev/shm/adjourn");
-        
-        //Reading
-        std::fstream file = getFile(fileName);
-        stringFromFile(file);
-        file.close();
+    char * c_editor_var = std::getenv("EDITOR");
+    char * c_visual_var = std::getenv("VISUAL");
 
-        deleteMemFile(fileName);
+    std::string EDIT_VAR = "vi";
+    if (c_editor_var != NULL) {
+        EDIT_VAR = c_editor_var;
+    } else if (c_visual_var != NULL) {
+        EDIT_VAR = c_visual_var;
     }
-    std::string output = "Temp output";
-    // system("$EDITOR test");
+
+    std::string fileName = createMemFile();
+    free(c_editor_var);
+    free(c_visual_var);
+
+    system((EDIT_VAR + " " + fileName).c_str());
+
+    //Reading
+    std::fstream file = getFile(fileName);
+    output = stringFromFile(file);
+    file.close();
+
+    deleteMemFile(fileName);
     return output;
 }
 
-std::string stringFromFile(std::fstream file){
-    std::string contents{std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>()};
-    return contents;
+std::string stringFromFile(std::fstream &file){
+    // std::string contents{std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>()};
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    return buffer.str();
 }
 
 json read_file(char *fp) {
@@ -127,16 +136,13 @@ std::fstream getFile(std::string path){
     return getFile(path, true);
 }
 std::string createMemFile(){
-    fs::path filePath{"/dev/shm/adjourn"}; //TODO ensure that this link is to a unqiue file
-    std::string command("touch ");
-    command += filePath.string();
-    system(command.c_str());
-    return filePath;
+    time_t t;
+    time(&t);
+    std::string fpath = "/dev/shm/adjourn" + std::to_string(t);
+    return fpath;
 }
 
 void deleteMemFile(fs::path filePath){
-    std::string command("rm ");
-    command += filePath.string();
-    system(command.c_str());
+    std::remove(filePath.c_str());
 }
 
