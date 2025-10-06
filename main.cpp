@@ -5,9 +5,6 @@
 #include <filesystem>
 #include <ctime>
 #include <string>
-// #include <iterator>
-
-// namespace fs = std::filesystem;
 
 #include "deps/json.hpp"
 using json = nlohmann::json;
@@ -74,7 +71,6 @@ std::string stringFromUser(){
 }
 
 std::string stringFromFile(std::fstream &file){
-    // std::string contents{std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>()};
     std::stringstream buffer;
     buffer << file.rdbuf();
     return buffer.str();
